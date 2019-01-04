@@ -78,6 +78,8 @@ public class Interpreter implements NodeVisitor {
                     "k := 45;" +
                 " END;"+
                 "END.");
+//        Lexer lexer = new Lexer("BEGIN " +
+//                "END.");
         Parser parser = new Parser(lexer);
         Interpreter interpreter = new Interpreter(parser);
         interpreter.interpret();

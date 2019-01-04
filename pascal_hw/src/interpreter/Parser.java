@@ -51,9 +51,9 @@ public class Parser {
             checkTokenType(TokenType.END);
             return node;
         }
-        else if (token.getType().equals(TokenType.LINEEND)) {
+        else if (token.getType().equals(TokenType.EOL)) {
             Node node = expr();
-            checkTokenType(TokenType.LINEEND);
+            checkTokenType(TokenType.EOL);
             return node;
         }
 //        else if (token.getType().equals(TokenType.VAR)) {
@@ -108,7 +108,9 @@ public class Parser {
 //            System.out.println(currentToken.getType());
         if (currentToken.getType() == TokenType.BEGIN) {
             checkTokenType(TokenType.BEGIN);
-            while (currentToken.getType() != TokenType.END && currentToken.getType() != TokenType.EOL) {
+//            System.out.println(currentToken.getType());
+            while (currentToken.getType() != TokenType.EOF) {
+                System.out.println(currentToken.getType());
                 if(currentToken.getType() == TokenType.VAR) {
                     String varName = currentToken.getValue();
                     checkTokenType(TokenType.VAR);
@@ -118,23 +120,26 @@ public class Parser {
                         var.setValue(expr());
                         vars.add(var);
                     }
-                    checkTokenType(TokenType.LINEEND);
+                    checkTokenType(TokenType.EOL);
                 } else if (currentToken.getType() == TokenType.BEGIN) {
                     vars.addAll(line());
+                } else {
+                    checkTokenType(TokenType.EOL);
                 }
-                else {
-                    System.out.println(currentToken.getType());
-                    throw new Exception("Parser Error");
-                }
+//                else {
+//                    System.out.println(currentToken.getType());
+//                    throw new Exception("Parser Error");
+//                }
             }
-            if (currentToken.getType() == TokenType.EOL) {
-                throw new Exception("Parser Error");
-            }
+//            if (currentToken.getType() == TokenType.EOL) {
+//                throw new Exception("Parser Error");
+//            }
         }
         if (!vars.isEmpty()) {
             return vars;
         }
-        throw new Exception("No variables");
+//        throw new Exception("No variables");
+        return vars;
     }
 
     public List<Variable> parse() throws Exception {

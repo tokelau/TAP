@@ -48,11 +48,19 @@ public class Lexer {
             }
             if (Character.isLetter(currentChar)) {
                 String word = word();
+//                System.out.println(word);
                 if (word.equals("BEGIN")) {
                     return new Token(TokenType.BEGIN, word);
                 }
                 else if (word.equals("END")){
-                    return new Token(TokenType.END, word);
+                    if (currentChar.equals('.')) {
+                        return new Token(TokenType.EOF, "END.");
+                    }
+                    if (currentChar.equals(';')) {
+                        forward();
+                        return new Token(TokenType.EOL, ";");
+                    }
+//                    return new Token(TokenType.END, word);
                 }
                 else {
                     return new Token(TokenType.VAR, word);
@@ -64,18 +72,19 @@ public class Lexer {
                     forward();
                     return new Token(TokenType.EQU, ":=");
                 }
-            }
-            if (currentChar.equals(';')) {
+            } else if (currentChar.equals(';')) {
                 forward();
-                return new Token(TokenType.LINEEND, ";");
+                return new Token(TokenType.EOL, ";");
             }
-            if (currentChar.equals('.')) {
-                return new Token(TokenType.EOL, null);
-            }
+
+//            if (currentChar.equals('.')) {
+//                return new Token(TokenType.EOL, null);
+//            }
 //            System.out.println(currentChar);
             throw new Exception("Parser error");
         }
-        return new Token(TokenType.EOL, null);
+        throw new Exception("Parser error");
+//        return new Token(TokenType.EOL, null);
     }
 
     private void forward(){

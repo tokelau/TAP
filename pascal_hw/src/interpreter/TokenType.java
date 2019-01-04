@@ -3,7 +3,6 @@ package interpreter;
 public enum TokenType {
     BEGIN,
     END,
-    LINEEND,
     VAR,
     EQU,
     INTEGER,
@@ -13,5 +12,6 @@ public enum TokenType {
     DIV,
     LPAREN,
     RPAREN,
-    EOL
+    EOL,
+    EOF
 }
